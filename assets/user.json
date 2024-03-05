@@ -1,0 +1,18 @@
+[
+    {
+        "id": 0,
+        "username": "admin",
+        "password": "nimda",
+        "name": "Alex Tran",
+        "books_list": [],
+        "is_admin": true
+    },
+    {
+        "id": 1,
+        "username": "guest",
+        "password": "guest",
+        "name": "Guest",
+        "books_list": [],
+        "is_admin": false
+    }
+]

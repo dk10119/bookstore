@@ -5,6 +5,24 @@
 
     // Check if the form has been sent. If so, check the username and password and if correct, log the user in and redirect to admin.php.
     // If not correct, show the error message near the form.
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if(isset($_POST["username"]) && isset($_POST["password"])) {
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            if ($username == "" || $password == "") {
+                $error_msg = "Please enter Username and Password!";
+            } else {
+                $json = file_get_contents("assets/user.json");
+                $users = json_decode($json, true);
+                $id = array_search($username, array_column($users, "username"));
+                if ($id === FALSE) {
+                    $error_msg = "Username or Password not match";
+                } else if ($password == $users[$id]["password"]) {
+                        $error_msg = "Login succesfully!";
+                } else $error_msg = "Username or Password not match";
+                    }
+                }
+            }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +63,7 @@
                     <input type="password" id="password" name="password">
                 </p>
                 <p><input type="submit" name="login" value="Log in"></p>
+                <p style="color: red"><?php echo $error_msg ?></p>
             </form>
         </main>
     </div>    
