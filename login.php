@@ -1,10 +1,5 @@
 <?php
-    // Check if the GET parameter "logout" is set. If so, log the user out.
-
-    // Check if the user is already logged in. If so, redirect to admin.php.
-
-    // Check if the form has been sent. If so, check the username and password and if correct, log the user in and redirect to admin.php.
-    // If not correct, show the error message near the form.
+    session_start();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_POST["username"]) && isset($_POST["password"])) {
             $username = $_POST["username"];
@@ -17,12 +12,37 @@
                 $id = array_search($username, array_column($users, "username"));
                 if ($id === FALSE) {
                     $error_msg = "Username or Password not match";
-                } else if ($password == $users[$id]["password"]) {
-                        $error_msg = "Login succesfully!";
-                } else $error_msg = "Username or Password not match";
-                    }
+                } elseif ($password !== $users[$id]["password"]) {
+                    $error_msg = "Username or Password not match";
+                } elseif ($users[$id]["is_admin"] === true) {
+                    $error_msg = "Login succesfully!";
+                    $_SESSION["username"] = $username;
+                    $_SESSION["is_admin"] = "true";
+                    header("Location: admin.php");
                 }
+                //  elseif (!$users[$id]["is_admin"]) {
+                //     $error_msg = "Login succesfully!";
+                //     session_start();
+                //     $_SESSION["username"] = $username;
+                //     header("Location: booksite.php");
+                // }
+                // this block is to redirect non admin member
             }
+        }
+    }
+
+    if (isset($_GET["logout"])) {
+        session_unset();
+        session_destroy();
+        $error_msg = "Successfully logged out!";
+    } 
+
+    if (isset($_SESSION["is_admin"])) header("Location: admin.php");
+    // elseif (isset($_SESSION["username"])) {
+    //     header("Location: booksite.php");
+    // }
+    // redirect non admin member
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +83,7 @@
                     <input type="password" id="password" name="password">
                 </p>
                 <p><input type="submit" name="login" value="Log in"></p>
-                <p style="color: red"><?php echo $error_msg ?></p>
+                <p style="color: red"><?php echo @$error_msg ?></p>
             </form>
         </main>
     </div>    

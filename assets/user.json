@@ -2,7 +2,7 @@
     {
         "id": 0,
         "username": "admin",
-        "password": "nimda",
+        "password": "admin",
         "name": "Alex Tran",
         "books_list": [],
         "is_admin": true
