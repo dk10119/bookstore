@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    if (!isset($_SESSION["is_admin"])) header("Location: login.php");
     // If the user is not logged in, redirect them back to login.php.
 
     // if the form has been sent, add the book to the data file
@@ -8,11 +10,11 @@
     // $title = strip_tags($_POST["title"]);
 
     // Read the file into array variable $books:
-    $json = file_get_contents("books.json");
+    $json = file_get_contents("assets/books.json");
     $books = json_decode($json, true);
 
     // Once you have added the new book to the variable $books write it into the file.
-    file_put_contents("books.json", json_encode($books));
+    file_put_contents("assets/books.json", json_encode($books));
 ?>
 <!DOCTYPE html>
 <html lang="en">

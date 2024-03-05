@@ -1,5 +1,6 @@
 <?php
-    // If the user is not logged in, redirect them back to login.php.
+    session_start();
+    if (!isset($_SESSION["is_admin"])) header("Location: login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,22 +25,25 @@
         </nav>
         <main>
             <h2>All Books</h2>
-            <?php
-                // This is almost identical to booksite.php (minus the genres). Make sure to print the correct id to the delete form.
-            ?>
-            <section class="book">
-                <form class="deleteform" action="deletebook.php" method="post">
-                    <input type="hidden" name="bookid" value="1">
-                    <input type="submit" name="deletebook" value="Delete">
-                </form>
-                <h3>To Kill a Mockingbird</h3>
-                <p class="publishing-info">
-                    <span class="author">Harper Lee</span>,
-                    <span class="year">1960</span>
-                </p>
-                <p class="description">
-                    Harper Lee's masterpiece explores racial injustice and moral growth through the eyes of a young girl in the American South.
-                </p>
+            <?php     
+                $json = file_get_contents("assets/books.json");
+                $books = json_decode($json, true);
+
+                foreach(array_reverse($books) as $book) { ?>
+                <section class="book">
+                    <form class="deleteform" action="deletebook.php" method="post">
+                        <input type="hidden" name="bookid" value="<?php echo $book["id"] ?>">
+                        <input type="submit" name="deletebook" value="Delete">
+                    </form>
+                    <h3><?php echo $book["title"] ?></h3>
+                    <p class="publishing-info">
+                        <span class="author"><?php echo $book["author"] ?></span>,
+                        <span class="year"><?php echo $book["publishing_year"] ?></span>
+                    </p>
+                    <p class="description"><?php echo $book["description"] ?></p>
+                </section>
+            <?php } ?>
+
             </section>
         </main>
     </div>    
