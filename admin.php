@@ -17,7 +17,7 @@
             <h1>Your Favorite Books</h1>
         </header>
         <nav id="main-navi">
-        <ul>
+            <ul>
                 <li><a href="admin.php">Admin Home</a></li>
                 <li><a href="addbook.php">Add a New Book</a></li>
                 <li><a href="login.php?logout">Log Out</a></li>
@@ -31,10 +31,7 @@
 
                 foreach(array_reverse($books) as $book) { ?>
                 <section class="book">
-                    <form class="deleteform" action="deletebook.php" method="post">
-                        <input type="hidden" name="bookid" value="<?php echo $book["id"] ?>">
-                        <input type="submit" name="deletebook" value="Delete">
-                    </form>
+                    <a href="deletebook.php?id=<?php echo $book["id"] ?>"><button class = "edit_form">Delete</button></a>
                     <a href="addbook.php?id=<?php echo $book["id"] ?>"><button class="edit_form">Edit</button></a>
                     <h3><?php echo $book["title"] ?></h3>
                     <p class="publishing-info">
