@@ -7,6 +7,10 @@ a {
     text-decoration: none;
 }
 
+.error_msg {
+    color:red;
+}
+
 #container {
     max-width: 1000px;
     margin-left: auto;

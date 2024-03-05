@@ -1,7 +1,6 @@
 <?php
     session_start();
     if (!isset($_SESSION["is_admin"])) header("Location: login.php");
-    // If the user is not logged in, redirect them back to login.php.
 
     // if the form has been sent, add the book to the data file
 
@@ -13,8 +12,25 @@
     $json = file_get_contents("assets/books.json");
     $books = json_decode($json, true);
 
-    // Once you have added the new book to the variable $books write it into the file.
-    file_put_contents("assets/books.json", json_encode($books));
+    isset($_GET["id"]) ? $is = $_GET["id"] : $id = end($books)["id"] + 1;
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["title"]) && empty($_POST["author"]) && empty($_POST["year"])&& empty($_POST["description"])) {
+            $error_msg = "Please enter all fields!";
+        } else {
+            $error_msg = "";
+            $books[$id] = (Object) [
+                "id" => $id,
+                "title" => $_POST["title"],
+                "description" => $_POST["description"],
+                "author" => $_POST["author"],
+                "publishing_year" => $_POST["year"],
+                "genre" => $_POST["genre"]
+            ];
+            file_put_contents("assets/books.json", json_encode($books));
+            header("Location: admin.php");
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,11 +54,14 @@
             </ul>
         </nav>
         <main>
-            <h2>Add a New Book</h2>
+            <h2>
+            <?php isset($_GET["id"]) ? print "Edit book id $id" : print "Add a New Book" ?>
+            <!-- need to add name here to know which book is being edit -->
+            </h2>
             <form action="addbook.php" method="post">
                 <p>
                     <label for="bookid">ID:</label>
-                    <input type="number" id="bookid" name="bookid">
+                    <span><?php echo $id ?></span>
                 </p>
                 <p>
                     <label for="title">Title:</label>
@@ -74,7 +93,8 @@
                     <label for="description">Description:</label><br>
                     <textarea rows="5" cols="100" id="description" name="description"></textarea>
                 </p>
-                <p><input type="submit" name="add-book" value="Add Book"></p>
+                <input type="submit" name="add-book" value="Add Book">
+                <p class = "error_msg"><?php echo @$error_msg ?></p>
             </form>
         </main>
     </div>    

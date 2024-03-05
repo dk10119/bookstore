@@ -83,7 +83,7 @@
                     <input type="password" id="password" name="password">
                 </p>
                 <p><input type="submit" name="login" value="Log in"></p>
-                <p style="color: red"><?php echo @$error_msg ?></p>
+                <p class = "error_msg"><?php echo @$error_msg ?></p>
             </form>
         </main>
     </div>    
