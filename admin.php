@@ -35,6 +35,7 @@
                         <input type="hidden" name="bookid" value="<?php echo $book["id"] ?>">
                         <input type="submit" name="deletebook" value="Delete">
                     </form>
+                    <a href="addbook.php?id=<?php echo $book["id"] ?>"><button class="edit_form">Edit</button></a>
                     <h3><?php echo $book["title"] ?></h3>
                     <p class="publishing-info">
                         <span class="author"><?php echo $book["author"] ?></span>,

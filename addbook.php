@@ -12,7 +12,7 @@
     $json = file_get_contents("assets/books.json");
     $books = json_decode($json, true);
 
-    isset($_GET["id"]) ? $is = $_GET["id"] : $id = end($books)["id"] + 1;
+    isset($_GET["id"]) ? $id = $_GET["id"] : $id = end($books)["id"] + 1;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["title"]) && empty($_POST["author"]) && empty($_POST["year"])&& empty($_POST["description"])) {
@@ -55,7 +55,7 @@
         </nav>
         <main>
             <h2>
-            <?php isset($_GET["id"]) ? print "Edit book id $id" : print "Add a New Book" ?>
+            <?php isset($_GET["id"]) ? print "Edit book id $id: " . $books[$id]["title"] : print "Add a New Book" ?>
             <!-- need to add name here to know which book is being edit -->
             </h2>
             <form action="addbook.php" method="post">
@@ -65,35 +65,35 @@
                 </p>
                 <p>
                     <label for="title">Title:</label>
-                    <input type="text" id="title" name="title">
+                    <input type="text" id="title" name="title" value="<?php echo @$books[$id]["title"] ?>">
                 </p>
                 <p>
                     <label for="author">Author:</label>
-                    <input type="text" id="author" name="author">
+                    <input type="text" id="author" name="author" value="<?php echo @$books[$id]["author"] ?>">
                 </p>
                 <p>
                     <label for="year">Year:</label>
-                    <input type="number" id="year" name="year">
+                    <input type="number" id="year" name="year"  value=<?php echo @$books[$id]["publishing_year"] ?>>
                 </p>
                 <p>
                     <label for="genre">Genre:</label>
                     <select id="genre" name="genre">
-                        <option value="Adventure">Adventure</option>
-                        <option value="Classic Literature">Classic Literature</option>
-                        <option value="Coming-of-age">Coming-of-age</option>
-                        <option value="Fantasy">Fantasy</option>
-                        <option value="Historical Fiction">Historical Fiction</option>
-                        <option value="Horror">Horror</option>
-                        <option value="Mystery">Mystery</option>
-                        <option value="Romance">Romance</option>
-                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Adventure" <?php if (@$books[$id]["genre"] == "Adventure") echo "selected" ?>>Adventure</option>
+                        <option value="Classic Literature" <?php if (@$books[$id]["genre"] == "Classic Literature") echo "selected" ?> >Classic Literature</option>
+                        <option value="Coming-of-age" <?php if (@$books[$id]["genre"] == "Coming-of-age") echo "selected" ?>>Coming-of-age</option>
+                        <option value="Fantasy" <?php if (@$books[$id]["genre"] == "Fantasy") echo "selected" ?>>Fantasy</option>
+                        <option value="Historical Fiction" <?php if (@$books[$id]["genre"] == "Historical Fiction") echo "selected" ?>>Historical Fiction</option>
+                        <option value="Horror" <?php if (@$books[$id]["genre"] == "Horror") echo "selected" ?>>Horror</option>
+                        <option value="Mystery" <?php if (@$books[$id]["genre"] == "Mystery") echo "selected" ?>>Mystery</option>
+                        <option value="Romance" <?php if (@$books[$id]["genre"] == "Romance") echo "selected" ?>>Romance</option>
+                        <option value="Science Fiction" <?php if (@$books[$id]["genre"] == "Science Fiction") echo "selected" ?>>Science Fiction</option>
                     </select>
                 </p>
                 <p>
                     <label for="description">Description:</label><br>
-                    <textarea rows="5" cols="100" id="description" name="description"></textarea>
+                    <textarea rows="5" cols="100" id="description" name="description"><?php echo @$books[$id]["description"] ?></textarea>
                 </p>
-                <input type="submit" name="add-book" value="Add Book">
+                <input type="submit" name="add-book" value="<?php isset($_GET["id"]) ? print "Edit" : print "Add" ?> Book">
                 <p class = "error_msg"><?php echo @$error_msg ?></p>
             </form>
         </main>

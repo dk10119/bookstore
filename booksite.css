@@ -76,6 +76,8 @@ label {
     width: 100px;
 }
 
-.deleteform {
+.deleteform,
+.edit_form {
     float: right;
+    margin-left: 0.5rem;
 }
