@@ -2,30 +2,23 @@
     session_start();
     if (!isset($_SESSION["is_admin"])) header("Location: login.php");
 
-    // if the form has been sent, add the book to the data file
-
-    // In order to protect against cross-site scripting attacks (i.e. basic PHP security), remove HTML tags from all input.
-    // There's a function for that. E.g.
-    // $title = strip_tags($_POST["title"]);
-
-    // Read the file into array variable $books:
     $json = file_get_contents("assets/books.json");
     $books = json_decode($json, true);
 
     isset($_GET["id"]) ? $id = $_GET["id"] : $id = end($books)["id"] + 1;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["title"]) && empty($_POST["author"]) && empty($_POST["year"])&& empty($_POST["description"])) {
+        if (empty(strip_tags($_POST["title"])) && empty(strip_tags($_POST["author"])) && empty(strip_tags($_POST["year"])) && empty(strip_tags($_POST["description"]))) {
             $error_msg = "Please enter all fields!";
         } else {
             $error_msg = "";
             $books[$id] = (Object) [
                 "id" => $id,
-                "title" => $_POST["title"],
-                "description" => $_POST["description"],
-                "author" => $_POST["author"],
-                "publishing_year" => $_POST["year"],
-                "genre" => $_POST["genre"]
+                "title" => strip_tags($_POST["title"]),
+                "description" => strip_tags($_POST["description"]),
+                "author" => strip_tags($_POST["author"]),
+                "publishing_year" => strip_tags($_POST["year"]),
+                "genre" => strip_tags($_POST["genre"])
             ];
             file_put_contents("assets/books.json", json_encode($books));
             header("Location: admin.php");
@@ -56,7 +49,6 @@
         <main>
             <h2>
             <?php isset($_GET["id"]) ? print "Edit book id $id: " . $books[$id]["title"] : print "Add a New Book" ?>
-            <!-- need to add name here to know which book is being edit -->
             </h2>
             <form action="addbook.php" method="post">
                 <p>
