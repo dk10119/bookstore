@@ -1,8 +1,8 @@
-#### Bookstore app
+## Bookstore app
 
 To store and manage books list with admin interface. Allow user to check out the list and mark favorite books.
 
-# Functionalities
+### Functionalities
 
 - Fetch books list from JSON file with info fields.
 - Allow admin to add and remove books.
@@ -12,7 +12,7 @@ To store and manage books list with admin interface. Allow user to check out the
 - Admin role with admin page to manage books list.
 - Allow normal user to mark books as favorite.
 
-# Backlogs
+### Backlogs
 
 - Delete books.
 - Set favorite books.
