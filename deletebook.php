@@ -6,14 +6,14 @@
     $books = json_decode($json, true);
 
     if (isset($_GET["id"])) $id = $_GET["id"];
+    ["title" => $title, "author" => $author, "publishing_year" => $year, "genre" => $genre, "description" => $description] = $books[$id]; //deconstruction book array
 
-    // Check the POST parameter "bookid". If it's set, delete the corresponding book from the data file.
-    // Hint: array_diff will not work here, since you'd need to create the whole book "object". Find the index and use array_splice instead.
-
-    // Redirect back to admin.php.
-
-    // Once you have removed the book from the variable $books write it into the file.
-    file_put_contents("assets/books.json", json_encode($books));
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $_SESSION["deleted_book"] = $books[$id];
+        array_splice($books, $id, 1);
+        file_put_contents("assets/books.json", json_encode($books));
+        header("Location: admin.php");
+    }
 
 ?>
 
@@ -39,32 +39,32 @@
             </ul>
         </nav>
         <main>
-            <h2><?php echo "Deleting book id $id: " . $books[$id]["title"] ?>
+            <h2><?php echo "Deleting book id $id: " . $title ?>
             </h2>
-            <form action="deletebook.php" method="post">
+            <form action="deletebook.php?id=<?php echo $id ?>" method="post">
                 <p>
                     <label for="bookid">ID:</label>
                     <span><?php echo $id ?></span>
                 </p>
                 <p>
                     <label for="title">Title:</label>
-                    <span><?php echo $books[$id]["title"] ?></span>
+                    <span><?php echo $title ?></span>
                 </p>
                 <p>
                     <label for="author">Author:</label>
-                    <span><?php echo $books[$id]["author"] ?></span>
+                    <span><?php echo $author ?></span>
                 </p>
                 <p>
                     <label for="year">Year:</label>
-                    <span></span><?php echo $books[$id]["publishing_year"] ?></span>
+                    <span></span><?php echo $year ?></span>
                 </p>
                 <p>
                     <label for="genre">Genre:</label>
-                    <span><?php echo $books[$id]["genre"] ?></span>
+                    <span><?php echo $genre ?></span>
                 </p>
                 <p>
                     <label for="description">Description:</label>
-                    <span><?php echo $books[$id]["description"] ?></span>
+                    <span><?php echo $description ?></span>
                     <!-- need to make description text into a block. maybe a div and flex the parent -->
                 </p>
                 <input type="submit" name="delete-book" value = "Delete book">
