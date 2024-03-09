@@ -9,11 +9,11 @@
     ["title" => $title, "author" => $author, "publishing_year" => $year, "genre" => $genre, "description" => $description] = $books[$id]; //deconstruction book array
 
     if (isset($_POST["delete-book"])) {
-        // $_SESSION["deleted_book"] = $books[$id]; //store for restoring
+        // $_SESSION["deleted_book"] = $books[$id]; //store id for restoring function
         array_splice($books, $id, 1);
         file_put_contents("assets/books.json", json_encode($books));
         header("Location: admin.php");
-    }
+    } //confirmation step. will trigger when the form below is submited.
 
 ?>
 

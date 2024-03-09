@@ -48,7 +48,7 @@
                     ?>      <a class="bookmark fa fa-star" href="setfavorite.php?remove=<?php echo $book["id"] ?>"></a>
                     <?php } else { ?>
                             <a class="bookmark fa fa-star-o" href="setfavorite.php?add=<?php echo $book["id"] ?>"></a>
-                    <?php } ?>
+                    <?php } ?><!-- this code block check if this book id exist in favorites cookies and display the appropriate link and icon -->
 
                     <h3><?php echo $book["title"] ?></h3>
                     <p class="publishing-info">

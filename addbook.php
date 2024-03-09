@@ -5,10 +5,11 @@
     $json = file_get_contents("assets/books.json");
     $books = json_decode($json, true);
 
-    isset($_GET["id"]) ? $id = $_GET["id"] : $id = end($books)["id"] + 1;
-    ["title" => $title, "author" => $author, "publishing_year" => $year, "genre" => $genre, "description" => $description] = @$books[$id];
+    isset($_GET["id"]) ? $id = $_GET["id"] : $id = end($books)["id"] + 1; //when editing books, id variable is given by link GET parameter. When adding book, id is the last book in JSON array plus 1.
+    ["title" => $title, "author" => $author, "publishing_year" => $year, "genre" => $genre, "description" => $description] = @$books[$id]; //deconstruct book infos array
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //strip_tags is method to prevent code injection from input
         if (empty(strip_tags($_POST["title"])) && empty(strip_tags($_POST["author"])) && empty(strip_tags($_POST["year"])) && empty(strip_tags($_POST["description"]))) {
             $error_msg = "Please enter all fields!";
         } else {
@@ -20,7 +21,7 @@
                 "author" => strip_tags($_POST["author"]),
                 "publishing_year" => strip_tags($_POST["year"]),
                 "genre" => strip_tags($_POST["genre"])
-            ];
+            ]; //construct the book object and add it into $books array at index $id
             file_put_contents("assets/books.json", json_encode($books));
             header("Location: admin.php");
         }
@@ -52,7 +53,7 @@
             <?php isset($_GET["id"]) ? print "Edit book id $id: " . $title : print "Add a New Book" ?>
             </h2>
             <form action="addbook.php<?php if(isset($_GET["id"])) echo "?id=$id" ?>" method="post">
-            <!-- pass the GET["id"] if form is sent when GET is present (editing book) -->
+            <!-- pass the GET["id"] if form is sent when GET parameter is presence (editing book) -->
                 <p>
                     <label for="bookid">ID:</label>
                     <span><?php echo $id ?></span>

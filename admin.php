@@ -34,6 +34,7 @@
                 <section class="book">
                     <a href="deletebook.php?id=<?php echo $book["id"] ?>"><button class = "edit_form">Delete</button></a>
                     <a href="addbook.php?id=<?php echo $book["id"] ?>"><button class="edit_form">Edit</button></a>
+                    <!-- looks like redirect to addbook but it give a parameter so addbook page will recognize and change to edit book instead -->
                     <h3><?php echo $book["title"] ?></h3>
                     <p class="publishing-info">
                         <span class="author"><?php echo $book["author"] ?></span>,
