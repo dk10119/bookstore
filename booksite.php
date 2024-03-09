@@ -33,6 +33,8 @@
                 // If not, add the class "fa-star-o". These are Font Awesome classes that add a filled star and a star outline respectively.
                 // Also, make sure to set the id parameter for each book, so the setfavorite.php page gets the information which book to favorite/unfavorite.
 
+
+
                 // Read the file into array variable $books:
                 $json = file_get_contents("assets/books.json");
                 $books = json_decode($json, true);
@@ -46,10 +48,16 @@
                 }
 
                 echo "<h2>" . ucwords($genre) . "</h2>";
-
+                print_r(@$_COOKIE["favorites"]);
                 foreach($filteredBooks as $book) { ?>
                 <section class="book">
-                    <a class="bookmark fa fa-star-o" href="setfavorite.php?id=<?php echo $book["id"] ?>"></a>
+                    <?php 
+                        if(isset($_COOKIE["favorites"]) && in_array($book["id"], explode(",", $_COOKIE["favorites"]))) {
+                    ?>      <a class="bookmark fa fa-star" href="setfavorite.php?remove=<?php echo $book["id"] ?>"></a>
+                    <?php } else { ?>
+                            <a class="bookmark fa fa-star-o" href="setfavorite.php?add=<?php echo $book["id"] ?>"></a>
+                    <?php } ?>
+
                     <h3><?php echo $book["title"] ?></h3>
                     <p class="publishing-info">
                         <span class="author"><?php echo $book["author"] ?></span>,
