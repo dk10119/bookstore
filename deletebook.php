@@ -8,8 +8,8 @@
     if (isset($_GET["id"])) $id = $_GET["id"];
     ["title" => $title, "author" => $author, "publishing_year" => $year, "genre" => $genre, "description" => $description] = $books[$id]; //deconstruction book array
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $_SESSION["deleted_book"] = $books[$id];
+    if (isset($_POST["delete-book"])) {
+        // $_SESSION["deleted_book"] = $books[$id]; //store for restoring
         array_splice($books, $id, 1);
         file_put_contents("assets/books.json", json_encode($books));
         header("Location: admin.php");
@@ -68,7 +68,7 @@
                     <!-- need to make description text into a block. maybe a div and flex the parent -->
                 </p>
                 <input type="submit" name="delete-book" value = "Delete book">
-                <a href="admin.php"><input type="submit" value = "Cancel"></a>
+                <a href="admin.php"><input type="button" value = "Cancel"></a>
                 <p class = "error_msg">The book will be permanently delete</p>
             </form>
         </main>
