@@ -19,6 +19,7 @@
         <nav id="main-navi">
             <ul>
                 <li><a href="admin.php">Admin Home</a></li>
+                <li><a href="booksite.php">To book site</a></li>
                 <li><a href="addbook.php">Add a New Book</a></li>
                 <li><a href="login.php?logout">Log Out</a></li>
             </ul>
