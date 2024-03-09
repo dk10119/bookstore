@@ -28,14 +28,6 @@
         </nav>
         <main>
             <?php           
-                // You also need to check the cookies to figure out if the book is favorite or not and display correct symbol.
-                // If the book is in the favorite list, add the class "fa-star" to the a tag with "bookmark" class.
-                // If not, add the class "fa-star-o". These are Font Awesome classes that add a filled star and a star outline respectively.
-                // Also, make sure to set the id parameter for each book, so the setfavorite.php page gets the information which book to favorite/unfavorite.
-
-
-
-                // Read the file into array variable $books:
                 $json = file_get_contents("assets/books.json");
                 $books = json_decode($json, true);
                 
@@ -48,7 +40,7 @@
                 }
 
                 echo "<h2>" . ucwords($genre) . "</h2>";
-                print_r(@$_COOKIE["favorites"]);
+
                 foreach($filteredBooks as $book) { ?>
                 <section class="book">
                     <?php 

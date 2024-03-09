@@ -15,6 +15,5 @@ To store and manage books list with admin interface. Allow user to check out the
 
 ### Backlogs
 
-- Delete books.
-- Set favorite books.
 - Login for normal user.
+- Store user favorite books on user.JSON
